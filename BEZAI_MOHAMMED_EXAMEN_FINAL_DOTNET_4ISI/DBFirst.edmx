@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBFirst.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DBFirstStoreContainer">
+    <EntitySet Name="ClientSet1" EntityType="DBFirst.Store.ClientSet1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompteSet" EntityType="DBFirst.Store.CompteSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OpérationSet" EntityType="DBFirst.Store.OpérationSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ClientCompte" Association="DBFirst.Store.ClientCompte">
+      <End Role="Client" EntitySet="ClientSet1" />
+      <End Role="Compte" EntitySet="CompteSet" />
+    </AssociationSet>
+    <AssociationSet Name="CompteOpération" Association="DBFirst.Store.CompteOpération">
+      <End Role="Compte" EntitySet="CompteSet" />
+      <End Role="Opération" EntitySet="OpérationSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ClientSet1">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="log" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CompteSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date_creation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="solde" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Client_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OpérationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="montant" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Compte_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ClientCompte">
+    <End Role="Client" Type="DBFirst.Store.ClientSet1" Multiplicity="1" />
+    <End Role="Compte" Type="DBFirst.Store.CompteSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Compte">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CompteOpération">
+    <End Role="Compte" Type="DBFirst.Store.CompteSet" Multiplicity="1" />
+    <End Role="Opération" Type="DBFirst.Store.OpérationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Compte">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Opération">
+        <PropertyRef Name="Compte_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DBFirst" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DBFirstContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClientSet1" EntityType="DBFirst.Client" />
+          <EntitySet Name="CompteSet" EntityType="DBFirst.Compte" />
+          <EntitySet Name="OpérationSet" EntityType="DBFirst.Opération" />
+          <AssociationSet Name="ClientCompte" Association="DBFirst.ClientCompte">
+            <End Role="Client" EntitySet="ClientSet1" />
+            <End Role="Compte" EntitySet="CompteSet" />
+          </AssociationSet>
+          <AssociationSet Name="CompteOpération" Association="DBFirst.CompteOpération">
+            <End Role="Compte" EntitySet="CompteSet" />
+            <End Role="Opération" EntitySet="OpérationSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" Nullable="false" />
+          <Property Name="log" Type="String" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Compte">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date_creation" Type="String" Nullable="false" />
+          <Property Name="solde" Type="String" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="DBFirst.ClientCompte" FromRole="Compte" ToRole="Client" />
+          </EntityType>
+        <EntityType Name="Opération">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
+          <Property Name="montant" Type="String" Nullable="false" />
+          <NavigationProperty Name="Compte" Relationship="DBFirst.CompteOpération" FromRole="Opération" ToRole="Compte" />
+        </EntityType>
+        <Association Name="ClientCompte">
+          <End Type="DBFirst.Client" Role="Client" Multiplicity="1" />
+          <End Type="DBFirst.Compte" Role="Compte" Multiplicity="*" />
+        </Association>
+        <Association Name="CompteOpération">
+          <End Type="DBFirst.Compte" Role="Compte" Multiplicity="1" />
+          <End Type="DBFirst.Opération" Role="Opération" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBFirstStoreContainer" CdmEntityContainer="DBFirstContainer">
+    <EntitySetMapping Name="ClientSet1">
+      <EntityTypeMapping TypeName="IsTypeOf(DBFirst.Client)">
+        <MappingFragment StoreEntitySet="ClientSet1">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="log" ColumnName="log" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompteSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DBFirst.Compte)">
+        <MappingFragment StoreEntitySet="CompteSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="date_creation" ColumnName="date_creation" />
+          <ScalarProperty Name="solde" ColumnName="solde" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OpérationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DBFirst.Opération)">
+        <MappingFragment StoreEntitySet="OpérationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="montant" ColumnName="montant" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ClientCompte" TypeName="DBFirst.ClientCompte" StoreEntitySet="CompteSet">
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Id" ColumnName="Client_Id" />
+      </EndProperty>
+      <EndProperty Name="Compte">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CompteOpération" TypeName="DBFirst.CompteOpération" StoreEntitySet="OpérationSet">
+      <EndProperty Name="Compte">
+        <ScalarProperty Name="Id" ColumnName="Compte_Id" />
+      </EndProperty>
+      <EndProperty Name="Opération">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

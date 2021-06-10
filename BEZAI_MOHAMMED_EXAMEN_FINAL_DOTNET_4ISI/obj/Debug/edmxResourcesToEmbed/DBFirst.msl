@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBFirstStoreContainer" CdmEntityContainer="DBFirstContainer">
+    <EntitySetMapping Name="ClientSet1">
+      <EntityTypeMapping TypeName="IsTypeOf(DBFirst.Client)">
+        <MappingFragment StoreEntitySet="ClientSet1">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="log" ColumnName="log" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompteSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DBFirst.Compte)">
+        <MappingFragment StoreEntitySet="CompteSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="date_creation" ColumnName="date_creation" />
+          <ScalarProperty Name="solde" ColumnName="solde" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OpérationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DBFirst.Opération)">
+        <MappingFragment StoreEntitySet="OpérationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="montant" ColumnName="montant" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ClientCompte" TypeName="DBFirst.ClientCompte" StoreEntitySet="CompteSet">
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Id" ColumnName="Client_Id" />
+      </EndProperty>
+      <EndProperty Name="Compte">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CompteOpération" TypeName="DBFirst.CompteOpération" StoreEntitySet="OpérationSet">
+      <EndProperty Name="Compte">
+        <ScalarProperty Name="Id" ColumnName="Compte_Id" />
+      </EndProperty>
+      <EndProperty Name="Opération">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

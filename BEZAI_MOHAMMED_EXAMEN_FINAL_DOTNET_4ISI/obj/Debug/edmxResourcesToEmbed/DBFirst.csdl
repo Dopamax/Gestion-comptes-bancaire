@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DBFirst" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="DBFirstContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ClientSet1" EntityType="DBFirst.Client" />
+    <EntitySet Name="CompteSet" EntityType="DBFirst.Compte" />
+    <EntitySet Name="OpérationSet" EntityType="DBFirst.Opération" />
+    <AssociationSet Name="ClientCompte" Association="DBFirst.ClientCompte">
+      <End Role="Client" EntitySet="ClientSet1" />
+      <End Role="Compte" EntitySet="CompteSet" />
+    </AssociationSet>
+    <AssociationSet Name="CompteOpération" Association="DBFirst.CompteOpération">
+      <End Role="Compte" EntitySet="CompteSet" />
+      <End Role="Opération" EntitySet="OpérationSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" Nullable="false" />
+    <Property Name="log" Type="String" Nullable="false" />
+    <Property Name="password" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Compte">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date_creation" Type="String" Nullable="false" />
+    <Property Name="solde" Type="String" Nullable="false" />
+    <NavigationProperty Name="Client" Relationship="DBFirst.ClientCompte" FromRole="Compte" ToRole="Client" />
+  </EntityType>
+  <EntityType Name="Opération">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="type" Type="String" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" />
+    <Property Name="montant" Type="String" Nullable="false" />
+    <NavigationProperty Name="Compte" Relationship="DBFirst.CompteOpération" FromRole="Opération" ToRole="Compte" />
+  </EntityType>
+  <Association Name="ClientCompte">
+    <End Type="DBFirst.Client" Role="Client" Multiplicity="1" />
+    <End Type="DBFirst.Compte" Role="Compte" Multiplicity="*" />
+  </Association>
+  <Association Name="CompteOpération">
+    <End Type="DBFirst.Compte" Role="Compte" Multiplicity="1" />
+    <End Type="DBFirst.Opération" Role="Opération" Multiplicity="*" />
+  </Association>
+</Schema>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBFirst.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DBFirstStoreContainer">
+    <EntitySet Name="ClientSet1" EntityType="DBFirst.Store.ClientSet1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompteSet" EntityType="DBFirst.Store.CompteSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OpérationSet" EntityType="DBFirst.Store.OpérationSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ClientCompte" Association="DBFirst.Store.ClientCompte">
+      <End Role="Client" EntitySet="ClientSet1" />
+      <End Role="Compte" EntitySet="CompteSet" />
+    </AssociationSet>
+    <AssociationSet Name="CompteOpération" Association="DBFirst.Store.CompteOpération">
+      <End Role="Compte" EntitySet="CompteSet" />
+      <End Role="Opération" EntitySet="OpérationSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ClientSet1">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="log" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CompteSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date_creation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="solde" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Client_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OpérationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="montant" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Compte_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ClientCompte">
+    <End Role="Client" Type="DBFirst.Store.ClientSet1" Multiplicity="1" />
+    <End Role="Compte" Type="DBFirst.Store.CompteSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Compte">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CompteOpération">
+    <End Role="Compte" Type="DBFirst.Store.CompteSet" Multiplicity="1" />
+    <End Role="Opération" Type="DBFirst.Store.OpérationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Compte">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Opération">
+        <PropertyRef Name="Compte_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
